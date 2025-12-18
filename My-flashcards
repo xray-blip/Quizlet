@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Free Flashcards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <h1>📚 My Flashcards</h1>
+
+  <section id="deckPicker">
+    <button id="newDeckBtn">+ New deck</button>
+    <ul id="deckList"></ul>
+  </section>
+
+  <section id="studyArea" hidden>
+    <p id="cardCounter">Card <span id="curr">0</span>/<span id="total">0</span></p>
+    <div id="card" class="card">
+      <div class="front"></div>
+      <div class="back" hidden></div>
+    </div>
+    <div class="controls">
+      <button id="prevBtn">←</button>
+      <button id="flipBtn">Flip</button>
+      <button id="nextBtn">→</button>
+      <button id="shuffleBtn">🔀 Shuffle</button>
+    </div>
+    <button id="backBtn">Back to decks</button>
+  </section>
+
+  <section id="editor" hidden>
+    <h2 id="editorTitle">Edit deck</h2>
+    <input id="deckName" placeholder="Deck name">
+    <div id="cardRows"></div>
+    <button id="addCardBtn">+ Add card</button>
+    <button id="saveDeckBtn">💾 Save</button>
+    <button id="cancelEditBtn">Cancel</button>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
