@@ -33,38 +33,55 @@ function renderCard(){
   qs('.front').textContent=card.q; qs('.back').textContent=card.a;
   qs('.front').hidden=false; qs('.back').hidden=true;
 }
-qs('flipBtn').onclick=()=>{qs('.front').hidden=!qs('.front').hidden; qs('.back').hidden=!qs('.back').hidden);};
+qs('flipBtn').onclick=()=>{qs('.front').hidden=!qs('.front').hidden; qs('.back').hidden=!qs('.back').hidden;};
 qs('nextBtn').onclick=()=>{index=(index+1)%shuffled.length;renderCard();};
 qs('prevBtn').onclick=()=>{index=(index-1+shuffled.length)%shuffled.length;renderCard();};
 qs('shuffleBtn').onclick=()=>{shuffled=randShuffle([...decks[activeDeck]]);index=0;renderCard();};
 qs('backBtn').onclick=()=>{show('deckPicker');hide('studyArea');};
 
-qs('newDeckBtn').onclick=()=>{activeDeck=null;qs('deckName').value='';buildEditor();show('editor');hide('deckPicker');hide('studyArea');};
+document.getElementById('newDeckBtn').addEventListener('click', function() {
+  activeDeck = null;
+  qs('deckName').value = '';
+  buildEditor();
+  show('editor');
+  hide('deckPicker');
+  hide('studyArea');
+});
+
 function buildEditor(name){
-  const cont=qs('cardRows'); cont.innerHTML='';
-  const cards=name?decks[name]:[];
-  cards.forEach((c,i)=>{
-    const row=document.createElement('div');
-    row.innerHTML=`<input placeholder="Question" value="${c.q}"><input placeholder="Answer" value="${c.a}">`;
+  const cont = qs('cardRows');
+  cont.innerHTML = '';
+  const cards = name ? decks[name] : [];
+  cards.forEach((c, i) => {
+    const row = document.createElement('div');
+    row.innerHTML = `<input placeholder="Question" value="${c.q}"><input placeholder="Answer" value="${c.a}">`;
     cont.appendChild(row);
   });
-  if(!cards.length) addRow();
+  if (!cards.length) addRow();
 }
-function addRow(){
-  const row=document.createElement('div');
-  row.innerHTML='<input placeholder="Question"><input placeholder="Answer">';
+function addRow() {
+  const row = document.createElement('div');
+  row.innerHTML = '<input placeholder="Question"><input placeholder="Answer">';
   qs('cardRows').appendChild(row);
 }
-qs('addCardBtn').onclick=addRow;
-qs('saveDeckBtn').onclick=()=>{
-  const name=qs('deckName').value.trim(); if(!name)return alert('Name?');
-  const rows=[...qs('cardRows').children].map(div=>{
-    const [q,a]=[...div.querySelectorAll('input')].map(i=>i.value.trim());
-    return q&&a?{q,a}:null;
+document.getElementById('addCardBtn').addEventListener('click', addRow);
+document.getElementById('saveDeckBtn').addEventListener('click', () => {
+  const name = qs('deckName').value.trim();
+  if (!name) return alert('Name?');
+  const rows = [...qs('cardRows').children].map(div => {
+    const [q, a] = [...div.querySelectorAll('input')].map(i => i.value.trim());
+    return q && a ? { q, a } : null;
   }).filter(Boolean);
-  if(!rows.length)return alert('Add cards first.');
-  decks[name]=rows; save(); renderDeckList(); show('deckPicker'); hide('editor');
-};
-qs('cancelEditBtn').onclick=()=>{show('deckPicker');hide('editor');};
+  if (!rows.length) return alert('Add cards first.');
+  decks[name] = rows;
+  save();
+  renderDeckList();
+  show('deckPicker');
+  hide('editor');
+});
+document.getElementById('cancelEditBtn').addEventListener('click', () => {
+  show('deckPicker');
+  hide('editor');
+});
 
 renderDeckList();
